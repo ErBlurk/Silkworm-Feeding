@@ -1,3 +1,6 @@
+# git submodule init
+# git submodule update
+
 [submodule "U2Seg"]
 	path = U2Seg
 	url = https://github.com/u2seg/U2Seg.git
