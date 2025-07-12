@@ -1,3 +1,23 @@
-/data/images/*
-/U2Seg/*
-/CutLER/*
+# Ignore everything
+/*
+
+# ignore any top-level external folders
+/U2Seg/
+/CutLER/
+/data/images/
+/STEGO/
+
+# keep our git config and modules
+!/.gitignore
+!/.gitmodules
+
+# keep these root files
+!/CutLER.md
+!/facebook_sam.ipynb
+!/generate_coco_json.py
+!/README.md
+!/register_silkworm.py
+!/requirements.txt
+!/threshold.ipynb
+!/U2Seg.md
+!/DINO_segmentation.ipynb
