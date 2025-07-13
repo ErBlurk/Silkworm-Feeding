@@ -18,6 +18,8 @@
 !/README.md
 !/register_silkworm.py
 !/requirements.txt
-!/threshold.ipynb
+!/threshold_train.ipynb
+!/threshold_train_multi.ipynb
+!/threshold_mask.ipynb
 !/U2Seg.md
 !/DINO_segmentation.ipynb
