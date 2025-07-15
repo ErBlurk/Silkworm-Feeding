@@ -7,7 +7,7 @@
 /data/images/
 /STEGO/
 
-# keep our git config and modules
+# keep git config and modules
 !/.gitignore
 !/.gitmodules
 
@@ -16,6 +16,7 @@
 !/facebook_sam.ipynb
 !/generate_coco_json.py
 !/README.md
+!/DESCRIPTION.md
 !/register_silkworm.py
 !/requirements.txt
 !/threshold_train.ipynb
@@ -25,3 +26,8 @@
 !/DINO_segmentation.ipynb
 !/RepNeXt.ipynb
 !/MobileViT.ipynb
+!/SegFormer.ipynb
+!/segformer_b0_best.pth
+
+# keep these root folders
+# !/experiments/
