@@ -6,6 +6,7 @@
 /CutLER/
 /data/images/
 /STEGO/
+/modules/*
 
 # keep git config and modules
 !/.gitignore
