@@ -1,5 +1,7 @@
 # Efficient Computer Vision Models for Silkworm Feeding Prediction and Habitat Analysis
 
+# !!! TODO: Improve README !!!
+
 ### Quick project informations
 
 #### People:
@@ -31,6 +33,16 @@ Following the proposed literature, we've started with CutLER and STEGO to later 
 
 ### Results
 
-Achieved good self-semantic segmentation (heuristics used, but no manual labelling) both with color thresholding and SegFormer.
+Achieved good self-supervised semantic segmentation (heuristics used, but no manual labelling) both with color thresholding and SegFormer.
 
-Achieved very good results on binary classification on raw images with all the models (feed / don't feed silkworms decision)
+Achieved very good results on binary classification on raw images with all the tested models (feed / don't feed silkworms decision)
+
+---
+
+
+![Color_Threshold](examples/threshold_color.png)
+*Heuristic self-supervised semantic segmentation example*
+
+---
+![SegFormer_Mask](examples/SegFormer.png)
+*SegFormer generated semantic mask example*
