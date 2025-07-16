@@ -2,3 +2,10 @@ torch
 torchvision
 timm
 matplotlib
+numpy
+pandas
+Pillow
+scikit-learn
+tqdm
+opencv-python
+transformers
