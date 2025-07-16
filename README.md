@@ -23,15 +23,15 @@
 > 2190452: Mohamed Zakaria Benjelloun Tuimy
 
 #### Tested segmentation models:
-> DINO \
-> STEGO \
-> U2Seg \
-> SegFormer
+> [DINO](https://huggingface.co/timm/vit_small_patch8_224.dino) \
+> [STEGO](https://github.com/mhamilton723/STEGO.git) \
+> [U2Seg](https://arxiv.org/abs/2312.17243) \
+> [SegFormer](https://huggingface.co/nvidia/segformer-b0-finetuned-ade-512-512)
 
 #### Tested classification models:
-> EfficientNetV2 \
-> RepNeXt \
-> MobileViT \
+> [EfficientNetV2](https://arxiv.org/abs/2104.00298) \
+> [RepNeXt](https://arxiv.org/abs/2406.16004) \
+> [MobileViT](https://arxiv.org/abs/2110.02178) \
 > Linear regressor 
 
 #### Link to dataset:
@@ -55,6 +55,13 @@ The scope of the project is to decide wether to feed silkworms or not (binary cl
 
 - The **Linear Regression + Convolution model** also used only the image masks but divided each image into multiple regions. Each region had its own learned threshold, and the final output was obtained using a 2D convolution over all the cells.
 
+<sub>
+
+**Note:**  
+Specificity measures how well the model avoids false positives — it tells us how often the model correctly predicts the negative class (i.e., when not to feed the silkworms).  
+False Positive Rate (FPR) is simply `1 - specificity`, and is included to highlight how often the model might wrongly suggest feeding, which can be especially important in decision-critical settings.
+
+</sub>
 ---
 
 ### How to run the notebooks
@@ -177,3 +184,7 @@ That said, there’s still a long way to go for unsupervised segmentation (panop
 | Sample 1 | Sample 2 | Sample 3 |
 |--------|---------|---------|
 | ![](examples/IMG_3882.jpg) | ![](examples/IMG_2850.jpg) | ![](examples/IMG_2849.jpg) |
+
+---
+
+Not all notebooks developed during experimentation are included in this repository, as some approaches did not lead to useful or consistent results. Only the most relevant and performing ones were kept.
