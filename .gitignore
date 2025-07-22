@@ -27,6 +27,7 @@
 !/DINO_segmentation.ipynb
 !/RepNeXt.ipynb
 !/MobileViT.ipynb
+!/EfficientNetV2.ipynb
 !/SegFormer.ipynb
 !/segformer_b0_best.pth
 

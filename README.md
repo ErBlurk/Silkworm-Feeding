@@ -43,11 +43,11 @@ The scope of the project is to decide wether to feed silkworms or not (binary cl
 
 | Model name     | Accuracy | Precision | Recall | F1 Score | Specificity | False Positive Rate |
 |----------------|----------|-----------|--------|----------|-------------|---------------------|
-| EfficientNetV2 |          |           |        |          |             |                     |
-| RepNeXt        |**0.9556**| 0.9653    | 0.9521 |**0.9586**| 0.9597      | 0.0403              |
+| EfficientNetV2 |**0.9556**| 0.9351    |**0.9863**|**0.9600**| 0.9194    | 0.0806              |
+| RepNeXt        |**0.9556**| 0.9653    | 0.9521 | 0.9586   | 0.9597      | 0.0403              |
 | MobileViT      | 0.9074   | **0.9690**| 0.8562 | 0.9091   | **0.9677**  | **0.0323**          |
 | Linear Regr.   | 0.9360   | 0.9280    | 0.9540 | 0.9410   | 0.9160      | 0.0840              |
-| L. Reg. + Conv | 0.9480   | 0.9450    |**0.9580**| 0.9520 | 0.9370      | 0.0630              |
+| L. Reg. + Conv | 0.9480   | 0.9450    | 0.9580 | 0.9520   | 0.9370      | 0.0630              |
 
 - The **first three models** achieved their results directly on the raw input images from the dataset.
 
@@ -55,6 +55,7 @@ The scope of the project is to decide wether to feed silkworms or not (binary cl
 
 - The **Linear Regression + Convolution model** also used only the image masks but divided each image into multiple regions. Each region had its own learned threshold, and the final output was obtained using a 2D convolution over all the cells.
 
+- Specificity measures how well a model identifies negatives, FPR = 1 - Specificity, lower is better (rate of feeding when unnecessary)
 <sub>
 
 **Note:**  
