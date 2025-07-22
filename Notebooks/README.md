@@ -30,3 +30,22 @@
 
 *Classification On Seg Masks Approaches Comparison:**
 
+| Aspect | **Notebook 1 – `Untitled20.ipynb`** | **Notebook 2 – `FEED va no FEED.ipynb`** | Main Difference / Takeaway |
+|---|---|---|---|
+| Overall strategy | Two-stage training: (1) on instance crops, then (2) fine-tune on full raw images | Single-stage training: only on instance crops | N1 uses full-image context; N2 doesn’t |
+| Data sources | Stage 1: cropped non-background instances from U2Seg<br>Stage 2: original full images | Cropped non-background instances only | N2 skips raw-image fine-tuning |
+| Label source | Image-level labels from `0_data.csv`, propagated to each crop; same labels reused on raw images | Same propagation to crops; no raw images used | Both use CSV labels, only N1 applies them again on raws |
+| Model | MobileNetV3-Small pretrained; backbone frozen, last FC replaced | Same (MobileNetV3-Small, frozen backbone, new head) | Architecture identical |
+| Training epochs / LR | Stage 1: 4 epochs @ 1e-3<br>Stage 2: 3 epochs @ 1e-4 | 5 epochs @ 1e-3 (single loop) | Two LRs & phases vs one |
+| Batch size | 16 (both stages) | 32 | Slightly larger batch in N2 |
+| Validation split | 20% for both instance and raw datasets | 20% on instance dataset | N1 validates on raws; N2 on instances |
+| Metrics reported | Confusion matrix + Accuracy, Precision, Recall, F1 (after Stage 2 on raw val set) | Confusion matrix + Accuracy, Precision, Recall, F1 **plus** Specificity & FPR (on instance val set) | N2 adds Spec/FPR; N1 reports on raw scenes |
+| Data prep function | `prepare_data_for_feed_classification` (creates crops & folders) | Same function/idea (minor param diffs) | Very similar |
+| Extra datasets/classes | Has a `LabeledRawImageDataset` for full images | No raw-image dataset class | Only N1 needs raw-image loader |
+| Checkpointing | Not explicitly saving (folder exists) | Same | Neither saves by default |
+| U2Seg usage | Full pipeline to get instances + semantic map; used twice (prep & demo) | Same pipeline; used once mainly for prep | Equal segmentation backbone |
+| Instance clustering params | `n_clusters` ≈ 150, `min_size`=100, τ=0.05 (instances) | Same (copied) | Identical unsupervised seg params |
+| Pros | Gains context from whole images; better potential generalization | Simpler, faster to run/train; fewer moving parts | Complexity vs simplicity trade-off |
+| Cons / Risks | Longer training, more code paths; frozen backbone may cap perf | Lacks global context; crop labels may be noisy | Context vs noise |
+| Best use case | When scene-level cues matter (layout, lighting) | When object appearance alone is enough & you want quick iteration | Choose based on what drives the signal |
+
