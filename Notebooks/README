@@ -1,3 +1,5 @@
+**Segmentation Approaches Comparison:**
+
 <table>
   <thead>
     <tr>
@@ -35,3 +37,6 @@
     <tr><td>Worm counting</td><td>After worm-mask watershed</td><td>After worm-mask watershed</td><td>After merge → per-class counts</td><td>U2Seg can count any class</td></tr>
   </tbody>
 </table>
+
+
+**Classification On Seg Masks Approaches Comparison:**
