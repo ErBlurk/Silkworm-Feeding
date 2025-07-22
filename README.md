@@ -56,13 +56,7 @@ The scope of the project is to decide wether to feed silkworms or not (binary cl
 - The **Linear Regression + Convolution model** also used only the image masks but divided each image into multiple regions. Each region had its own learned threshold, and the final output was obtained using a 2D convolution over all the cells.
 
 - Specificity measures how well a model identifies negatives, FPR = 1 - Specificity, lower is better (rate of feeding when unnecessary)
-<sub>
 
-**Note:**  
-Specificity measures how well the model avoids false positives — it tells us how often the model correctly predicts the negative class (i.e., when not to feed the silkworms).  
-False Positive Rate (FPR) is simply `1 - specificity`, and is included to highlight how often the model might wrongly suggest feeding, which can be especially important in decision-critical settings.
-
-</sub>
 ---
 
 ### How to run the notebooks
