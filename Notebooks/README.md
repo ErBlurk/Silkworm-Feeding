@@ -30,7 +30,7 @@
 
 *Classification On Seg Masks Approaches Comparison:**
 
-| Aspect | **Notebook 1 – `Untitled20.ipynb`** | **Notebook 2 – `FEED va no FEED.ipynb`** | Main Difference / Takeaway |
+| Aspect | **FeedClassifier_TwoStage_CropsThenRaw.ipynb** | **FeedClassifier_CropsOnly.ipynb`** | Main Difference / Takeaway |
 |---|---|---|---|
 | Overall strategy | Two-stage training: (1) on instance crops, then (2) fine-tune on full raw images | Single-stage training: only on instance crops | N1 uses full-image context; N2 doesn’t |
 | Data sources | Stage 1: cropped non-background instances from U2Seg<br>Stage 2: original full images | Cropped non-background instances only | N2 skips raw-image fine-tuning |
