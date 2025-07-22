@@ -1,31 +1,30 @@
 **Segmentation Approaches Comparison:**
 
-| Aspect / Step         | **Basic** (`dino_segmentation_basic.ipynb`)                             | **Heuristic** (`dino_segmentation_heuristic.ipynb`)         | **Advanced U2Seg** (`dino_segmentation_advanced_u2seg.ipynb`)                                | Main difference              |
-| --------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ---------------------------- |
-| Goal                  | Unsupervised silkworm **semantic + instance** segmentation              | Same goal, but **auto-detects classes by color**            | Unified **two-branch** unsupervised segmentation (instances + semantics) then merges         | More automation & modularity |
-| Feature extractor     | DINOv2 ViT-B/14 via `torch.hub`                                         | Same                                                        | Same                                                                                         | —                            |
-| Input resize          | 518×518                                                                 | 518×518                                                     | 518×518                                                                                      | —                            |
-| Patch grid            | 37×37 tokens                                                            | 37×37                                                       | 37×37                                                                                        | —                            |
-| Semantic clustering   | Spectral clustering (τ=0.12) → KMeans (k=3)                             | Same                                                        | Same                                                                                         | Same algo                    |
-| Class naming          | **Hard-coded** cluster 0 = worms                                        | **HSV heuristic** (low saturation = worms, hue≈60 = leaves) | Same HSV heuristic                                                                           | Manual → automatic           |
-| Instance trigger      | Only on worm mask                                                       | Same                                                        | Build many class-agnostic instances first, then label                                        | U2Seg splits first           |
-| Instance split        | Distance transform + watershed on worm mask                             | Same                                                        | Same watershed **after** instance clustering                                                 | Extra step in U2Seg          |
-| Pre-grouped instances | ✗                                                                       | ✗                                                           | ✓ \~150 spectral clusters (raw instances)                                                    | New in U2Seg                 |
-| Min object size       | 150 px                                                                  | 150 px                                                      | 100 px (default)                                                                             | Small tweak                  |
-| `min_distance`        | 12 px                                                                   | 12 px                                                       | 12 px                                                                                        | —                            |
-| Semantic classes      | 3                                                                       | 3                                                           | 3                                                                                            | —                            |
-| Instance clusters     | N/A                                                                     | N/A                                                         | \~150 (configurable)                                                                         | Only U2Seg                   |
-| Merge rule            | N/A (only worms instanced)                                              | N/A                                                         | Majority-overlap vote instance ↔ semantic                                                    | New in U2Seg                 |
-| Visual panels         | 3: Original / Semantic / Instance                                       | 3: Original / Semantic / Instance                           | 4: Original / Raw inst. / Semantic / Final merged                                            | Extra panel in U2Seg         |
-| Output dict           | `instance_masks`, `semantic_map`, `label_to_name_map`, `silkworm_count` | Same, names auto-derived                                    | `raw_instances`, `classified_instances`, `category_counts`, `semantic_map`, `semantic_names` | Richer outputs               |
-| Folders               | Not emphasized                                                          | Created at start                                            | Created                                                                                      | Minor                        |
-| Saving                | Plots only                                                              | Plots only                                                  | Paths prepared (still plots)                                                                 | Ready to save                |
-| Hyper-params exposed  | Few (τ, n\_classes, min\_obj\_size, …)                                  | Same + HSV thresholds implicit                              | More (separate τ / k for inst. vs sem.)                                                      | Finer control                |
-| Naming robustness     | Fragile (ID swap)                                                       | More robust (color rules)                                   | Color rules + instance vote                                                                  | Increasing robustness        |
-| Pipeline name         | —                                                                       | —                                                           | `U2SegUnified`                                                                               | Formalized class             |
-| Code org              | Straightforward classes                                                 | Same + labeling fn                                          | Specialized classes + merger                                                                 | More modular                 |
-| Compute cost          | Moderate                                                                | Moderate                                                    | Slightly higher (extra clustering)                                                           | Extra spectral step          |
-| Worm counting         | After worm-mask watershed                                               | After worm-mask watershed                                   | After merge → per-class counts                                                               | U2Seg can count any class    |
-
+| Aspect / Step | Basic (`dino_segmentation_basic.ipynb`) | Heuristic (`dino_segmentation_heuristic.ipynb`) | Advanced U2Seg (`dino_segmentation_advanced_u2seg.ipynb`) | Main Difference |
+|---|---|---|---|---|
+| Goal | Unsupervised silkworm semantic + instance segmentation | Same goal, but auto-detects classes by color | Unified two-branch unsupervised segmentation (instances + semantics) and then merges | Progressively more automated & modular |
+| Feature extractor | DINOv2 ViT-B/14 via `torch.hub` | Same | Same | No change |
+| Input resize | 518×518 (center crop/resize) | 518×518 | 518×518 | Same |
+| Patch grid | 37×37 tokens | 37×37 | 37×37 | Same |
+| Semantic clustering method | Spectral clustering (τ = 0.12) → KMeans (k = 3) | Same | Same | Same base algorithm |
+| Who decides “silkworms/leaf/bg”? | Hard-coded: cluster 0 = silkworms, others assigned sequentially | HSV heuristic: lowest saturation = silkworms; hue≈60 = leaves; leftover = background | Same HSV heuristic | Basic is manual; later notebooks are automatic |
+| Instance segmentation trigger | Only on silkworm mask (binary) | Same | First build class-agnostic many instances, then classify them | U2Seg splits instances first, classifies later |
+| Instance split method | Distance transform + watershed on silkworm mask | Same | Distance transform + watershed too, but after an instance clustering stage | U2Seg adds an instance-clustering stage before watershed |
+| Instance “pre-groups” from clustering | ❌ | ❌ | ✅ Spectral clustering with many clusters (e.g., 150) to get raw instances | New in U2Seg |
+| Instance size filter | `min_obj_size = 150 px` | 150 px | 100 px (default shown), configurable | Slight param tweak |
+| Peak separation (`min_distance`) | 12 px | 12 px | 12 px | Same |
+| Semantic class count | 3 | 3 | 3 | Same |
+| Instance cluster count | N/A | N/A | ~150 (configurable) | Only U2Seg |
+| Merge rule (instances ↔ semantics) | N/A (only worms are instanced) | N/A (only worms are instanced) | Majority overlap vote assigns each instance to a semantic class | New in U2Seg |
+| Visualization panels | 3: Original / Semantic / Instance | 3: Original / Semantic / Instance | 4: Original / Raw instances / Semantic / Final merged | Extra panel for raw instances & merged result |
+| Output dictionary | `instance_masks`, `semantic_map`, `label_to_name_map`, `silkworm_count` | Same, but names are auto-derived | `raw_instances`, `classified_instances`, `category_counts`, `semantic_map`, `semantic_names` | Richer outputs in U2Seg |
+| Folder creation (results, models, etc.) | Not emphasized | Yes, created at start | Yes | Minor housekeeping |
+| Saving results to disk | No (plots only) | No (plots only) | Paths prepared but still just plots unless extended | Structure ready in later ones |
+| Hyperparameters exposed | Few (τ, n_classes, min_obj_size, etc.) | Same + HSV thresholds implicit | More (separate τ / n_clusters for instances vs semantics) | Finer control in U2Seg |
+| Class naming robustness | Fragile (cluster ID swap breaks it) | More robust (color-based heuristic) | Same heuristic, plus instance vote adds stability | Increasing robustness |
+| Pipeline name | None | None | `U2SegUnified` class | Formalized pipeline object |
+| Code organization | Straightforward classes | Same classes + extra labeling function | Multiple specialized classes + merger class | More modular & layered |
+| Computational cost | Moderate | Moderate | Slightly higher (extra clustering step for instances) | U2Seg adds another spectral clustering |
+| When worms are counted | After silkworm mask watershed | After silkworm mask watershed | After merging classified instances → counts per class | U2Seg can count any class |
 
 **Classification On Seg Masks Approaches Comparison:**
