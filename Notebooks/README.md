@@ -28,7 +28,7 @@
 | When worms are counted            | After silkworm mask watershed                                                  | After silkworm mask watershed                                                               | After merging classified instances → counts per class                                                           | U2Seg can count any class                            |
 
 
-*Classification On Seg Masks Approaches Comparison:**
+**Classification On Seg Masks Approaches Comparison:**
 
 | Aspect | **FeedClassifier_TwoStage_CropsThenRaw.ipynb** | **FeedClassifier_CropsOnly.ipynb`** | Main Difference / Takeaway |
 |---|---|---|---|
